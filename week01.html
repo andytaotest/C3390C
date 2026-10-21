@@ -86,7 +86,7 @@
           <div class="field"><label for="quantity">Places requested</label><input id="quantity" type="number" min="1" max="4" value="1"></div>
           <div class="field"><label for="promo">Discount code</label><input id="promo" autocomplete="off"></div>
           <p>Estimated total: <strong id="price">S$20.00</strong></p>
-          <div class="actions"><button type="submit">Book places</button><button type="button" id="reset" class="secondary">Reset demo</button></div>
+          <div class="actions"><button type="submit">Book places</button><button type="button" id="reset-demo" class="secondary">Reset demo</button></div>
           <div id="status" class="status" role="status" aria-live="polite"></div>
         </form>
         <div>
@@ -199,7 +199,7 @@
       render();
     });
 
-    document.getElementById('reset').addEventListener('click', () => {
+    document.getElementById('reset-demo').addEventListener('click', () => {
       available = 3;
       bookings = [];
       nextId = 1;
