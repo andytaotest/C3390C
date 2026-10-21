@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C3390C Week 1 L01 and L02 Test Lab</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #20272b; background: #f7f9f8; line-height: 1.5; }
+    header { background: #173f46; color: white; padding: 24px max(20px, calc((100vw - 1000px)/2)); }
+    header h1 { font-size: 1.55rem; margin: 0 0 4px; }
+    header p { margin: 0; color: #e2eff0; }
+    main { max-width: 1000px; margin: 0 auto; padding: 22px 20px 56px; }
+    h2 { font-size: 1.2rem; margin: 30px 0 10px; }
+    h3 { font-size: 1rem; margin: 0 0 12px; }
+    p { margin: 8px 0 12px; }
+    .intro { max-width: 75ch; }
+    .rules { padding-left: 22px; }
+    .rules li { margin: 5px 0; }
+    .app { margin-top: 20px; border: 1px solid #b8cac9; background: white; padding: 20px; border-radius: 6px; }
+    .app-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .75fr); gap: 26px; }
+    .field { margin-bottom: 12px; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; }
+    input { width: 100%; min-height: 42px; border: 1px solid #82989a; border-radius: 4px; padding: 8px 10px; font: inherit; }
+    input:focus, button:focus-visible { outline: 3px solid #64a9a0; outline-offset: 2px; }
+    button { border: 1px solid #235d60; border-radius: 4px; min-height: 42px; padding: 8px 13px; background: #235d60; color: white; font: inherit; cursor: pointer; }
+    button.secondary { background: white; color: #235d60; }
+    button:hover { filter: brightness(.92); }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .status { min-height: 50px; padding: 10px 0; font-weight: 600; }
+    .status.error { color: #a12c24; }
+    .status.success { color: #146b47; }
+    .summary { background: #eaf3f1; padding: 14px; border-radius: 4px; }
+    .summary strong { font-size: 1.6rem; }
+    .bookings { padding-left: 20px; }
+    .bookings li { margin: 10px 0; }
+    .bookings button { min-height: 34px; margin-left: 8px; }
+    .prompts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
+    .prompts section { border-top: 1px solid #cbd8d6; padding-top: 8px; }
+    .note { color: #4b6265; font-size: .92rem; }
+    @media (max-width: 680px) { .app-grid, .prompts { grid-template-columns: 1fr; } header { padding: 20px; } }
+    @media print { body { background: white; } header { color: black; background: white; padding: 0; } header p { color: black; } button { display: none; } .app { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>C3390C Week 1: L01 and L02</h1>
+    <p>Workshop registration case study and test lab</p>
+  </header>
+  <main>
+    <p class="intro">A community workshop has limited places. Your team has been asked whether its registration app is ready to release. Read the rules, predict what should happen, then use the demo to gather evidence. Use made-up names and email addresses. The demo does not submit real registrations or send email.</p>
+
+    <h2>Opening vote</h2>
+    <p>One normal booking for one place passed. Is that enough evidence to release the app? Record your team's answer and one reason. Return to it at the end.</p>
+
+    <h2>L01 Activity 1: Testing across development</h2>
+    <p>Map the product owner, analyst, designer, developer, tester, and user across planning, design, build, release, and maintenance. At which two stages would you ask a testing question, and what would you ask? Record your answers in the L01 worksheet or your own notes.</p>
+
+    <h2>L01 Activity 2: What could go wrong?</h2>
+    <p>Rank these incidents for the workshop service. For your top two, identify who is affected, the consequence, and a test that might have found the problem.</p>
+    <ol class="rules">
+      <li>Four people receive confirmed places when only three remain. One arrives and is turned away.</li>
+      <li>A confirmation is accepted with an email address that cannot receive mail. The learner misses joining details.</li>
+      <li>After a cancellation, the site still shows no places. A waiting learner cannot register.</li>
+      <li>A discount is applied incorrectly, so some learners pay more than the displayed price.</li>
+    </ol>
+
+    <h2>L01 Activity 3: Acceptance rules</h2>
+    <ol class="rules">
+      <li><strong>R1:</strong> The workshop starts with 3 places available.</li>
+      <li><strong>R2:</strong> A request for 1 to 3 places succeeds only when enough places remain. A request that exceeds availability is rejected.</li>
+      <li><strong>R3:</strong> The learner must supply a name and an email in the form <code>name@domain.tld</code>.</li>
+      <li><strong>R4:</strong> One email address may have only one active booking.</li>
+      <li><strong>R5:</strong> Each place costs S$20. The code <code>STUDENT</code> gives 10% off the total.</li>
+      <li><strong>R6:</strong> Cancelling a booking releases its places for others.</li>
+    </ol>
+
+    <h2>Demo app</h2>
+    <div class="app">
+      <div class="app-grid">
+        <form id="booking-form" novalidate>
+          <h3>Register for the workshop</h3>
+          <div class="field"><label for="name">Name</label><input id="name" autocomplete="off"></div>
+          <div class="field"><label for="email">Email</label><input id="email" autocomplete="off"></div>
+          <div class="field"><label for="quantity">Places requested</label><input id="quantity" type="number" min="1" max="4" value="1"></div>
+          <div class="field"><label for="promo">Discount code</label><input id="promo" autocomplete="off"></div>
+          <p>Estimated total: <strong id="price">S$20.00</strong></p>
+          <div class="actions"><button type="submit">Book places</button><button type="button" id="reset" class="secondary">Reset demo</button></div>
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+        </form>
+        <div>
+          <div class="summary"><div>Places available</div><strong id="available">3</strong></div>
+          <h3 style="margin-top:22px">Active bookings</h3>
+          <ol id="bookings" class="bookings"></ol>
+          <p class="note">Reset returns the demo to its initial state. No data leaves this browser tab.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>L01 team tasks</h2>
+    <div class="prompts">
+      <section><h3>1. Before testing</h3><p>Choose two rules. For each, predict an input and the result you expect. Include one unusual or boundary input.</p></section>
+      <section><h3>2. While testing</h3><p>Run at least two tests per person. Record the input, what the app did, and whether that matched the rule. Reset when you need a clean starting state.</p></section>
+      <section><h3>3. Report a finding</h3><p>Give the rule number, steps to reproduce, expected result, actual result, and possible impact on a learner or the provider.</p></section>
+      <section><h3>4. Release decision</h3><p>Which issue would you fix first, and why? What question would remain unanswered even if every test you tried passed?</p></section>
+    </div>
+
+    <h2>L02 Activity 1: Seven testing principles</h2>
+    <p>Use the seven principles in your L02 worksheet. Match each clue below to a principle, then write one action a tester should take. You may use evidence from the demo.</p>
+    <ol class="rules">
+      <li>The team repeats only the same normal booking every week and stops finding problems.</li>
+      <li>The team lists hundreds of possible quantities, emails, discount codes, and booking histories. There is not enough time to try every combination.</li>
+      <li>Several checks passed. A manager says this proves the app has no defects.</li>
+      <li>A workshop booking tool and an emergency appointment system need different testing priorities.</li>
+      <li>Before development, the team notices that “valid email” was never defined clearly.</li>
+      <li>Every written check passes, but learners say the service does not help them register in the way they need.</li>
+      <li>Most reported issues come from the booking and cancellation part of the app.</li>
+    </ol>
+
+    <h2>L02 Activity 2: Test process</h2>
+    <p>Match each project task to one of the seven test-process activities in your L02 worksheet. Put the main activities into a useful working order. Which activity happens throughout rather than only once?</p>
+    <ol class="rules" type="A">
+      <li>Run a prepared check, compare actual with expected, and log the result.</li>
+      <li>Agree on objectives, scope, priorities, people, and the approach.</li>
+      <li>Summarise results, close the testing work, and retain useful test materials.</li>
+      <li>Review the rules and identify what needs testing.</li>
+      <li>Check progress against the plan and adjust work when needed.</li>
+      <li>Prepare test data, procedures, and an environment ready for testing.</li>
+      <li>Choose how to test each condition and define expected results.</li>
+    </ol>
+
+    <h2>Exit ticket</h2>
+    <p>In your worksheet or notes, record one objective of testing, one principle that changed how you tested, and one test-process activity you performed in the lab.</p>
+  </main>
+  <script>
+    const form = document.getElementById('booking-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const quantityInput = document.getElementById('quantity');
+    const promoInput = document.getElementById('promo');
+    const status = document.getElementById('status');
+    const availableLabel = document.getElementById('available');
+    const bookingsList = document.getElementById('bookings');
+    const priceLabel = document.getElementById('price');
+    let available = 3;
+    let bookings = [];
+    let nextId = 1;
+
+    function setStatus(message, kind = '') {
+      status.textContent = message;
+      status.className = `status ${kind}`;
+    }
+
+    function updatePrice() {
+      const quantity = Number(quantityInput.value) || 0;
+      const discount = promoInput.value.trim().toUpperCase() === 'STUDENT' ? 0.9 : 1;
+      priceLabel.textContent = `S$${(quantity * 20 * discount).toFixed(2)}`;
+    }
+
+    function render() {
+      availableLabel.textContent = String(available);
+      bookingsList.replaceChildren();
+      for (const booking of bookings.filter(item => item.active)) {
+        const li = document.createElement('li');
+        const label = document.createElement('span');
+        label.textContent = `${booking.name}: ${booking.quantity} place(s), S$${booking.total.toFixed(2)}`;
+        const cancel = document.createElement('button');
+        cancel.type = 'button';
+        cancel.className = 'secondary';
+        cancel.textContent = 'Cancel';
+        cancel.addEventListener('click', () => {
+          booking.active = false;
+          setStatus('Booking cancelled.', 'success');
+          render();
+        });
+        li.append(label, cancel);
+        bookingsList.append(li);
+      }
+      if (!bookingsList.children.length) {
+        const li = document.createElement('li');
+        li.textContent = 'None yet';
+        bookingsList.append(li);
+      }
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const quantity = Number(quantityInput.value);
+      if (!name || !email.includes('@')) return setStatus('Enter a name and email.', 'error');
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 4) return setStatus('Choose 1 to 4 places.', 'error');
+      if (quantity > available && quantity !== 4) return setStatus('Not enough places remain.', 'error');
+      const discount = promoInput.value.trim().toUpperCase() === 'STUDENT' ? 0.9 : 1;
+      bookings.push({ id: nextId++, name, email, quantity, total: quantity * 20 * discount, active: true });
+      available -= quantity;
+      setStatus('Booking confirmed.', 'success');
+      render();
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      available = 3;
+      bookings = [];
+      nextId = 1;
+      form.reset();
+      updatePrice();
+      setStatus('Demo reset.');
+      render();
+    });
+    quantityInput.addEventListener('input', updatePrice);
+    promoInput.addEventListener('input', updatePrice);
+    updatePrice();
+    render();
+  </script>
+</body>
+</html>
