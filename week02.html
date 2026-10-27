@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C3390C Week 2 L03 and L04 Test Lab</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #20272b; background: #f7f9f8; line-height: 1.55; }
+    header { background: #173f46; color: white; padding: 24px max(20px, calc((100vw - 1060px)/2)); }
+    h1 { font-size: 1.6rem; margin: 0 0 5px; }
+    header p { margin: 0; color: #e2eff0; }
+    header a { color: #fff; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px 20px; border-bottom: 1px solid #c9d6d4; padding: 12px max(20px, calc((100vw - 1060px)/2)); background: #fff; }
+    a { color: #145e63; }
+    a:hover { text-decoration-thickness: 2px; }
+    main { max-width: 1060px; padding: 20px 20px 60px; margin: 0 auto; }
+    section { padding: 20px 0; border-bottom: 1px solid #c9d6d4; scroll-margin-top: 12px; }
+    h2 { font-size: 1.25rem; margin: 0 0 12px; }
+    h3 { font-size: 1.05rem; margin: 20px 0 8px; }
+    p { margin: 8px 0 12px; }
+    li { margin: 6px 0; }
+    .intro { max-width: 83ch; }
+    .tag { font-size: .88rem; font-weight: 600; color: #596269; }
+    .brief { border-left: 4px solid #7b619b; padding: 5px 16px; background: #f1eef6; margin: 14px 0; }
+    label { display: block; font-weight: 600; margin: 10px 0 5px; }
+    input, select, textarea { font: inherit; width: 100%; min-width: 0; border: 1px solid #82989a; background: #fff; color: #20272b; border-radius: 4px; padding: 9px; }
+    input, select { min-height: 44px; }
+    textarea { min-height: 130px; resize: vertical; }
+    :focus-visible { outline: 3px solid #427bb5; outline-offset: 3px; }
+    button { font: inherit; min-height: 44px; padding: 9px 14px; border-radius: 4px; border: 1px solid #235d60; color: white; background: #235d60; cursor: pointer; }
+    button:hover { filter: brightness(.92); }
+    button.secondary { background: white; color: #235d60; }
+    .actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .diagram { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 16px 0; }
+    .diagram div { padding: 12px 8px; text-align: center; border: 1px solid #9db4b5; background: #edf3f4; border-radius: 4px; font-size: .92rem; overflow-wrap: anywhere; }
+    .diagram small { display: block; color: #49585d; }
+    .table-wrap { overflow-x: auto; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; background: white; font-size: .94rem; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #ccd7d6; vertical-align: top; }
+    th { background: #eaf0ef; }
+    .cards { padding-left: 24px; }
+    .cards li { padding: 6px 0; }
+    .lab { border: 1px solid #9db4b5; background: #fff; border-radius: 6px; padding: 20px; margin: 18px 0; }
+    .app-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); gap: 24px; }
+    .summary { padding: 12px; background: #edf3f4; }
+    .summary strong { display: block; font-size: 1.8rem; }
+    #booking-status, #export-status { min-height: 30px; padding: 8px 0; }
+    .error, .fail { color: #a12c24; font-weight: 600; }
+    .success, .pass { color: #146b47; font-weight: 600; }
+    #active-bookings { padding-left: 22px; }
+    #active-bookings button { display: block; margin-top: 6px; }
+    .helper { color: #4b5b61; font-size: .93rem; }
+    .team-row { display: grid; grid-template-columns: minmax(160px, 280px) 1fr; gap: 20px; align-items: end; }
+    code { overflow-wrap: anywhere; }
+    @media (max-width: 680px) {
+      h1 { font-size: 1.35rem; }
+      .app-grid, .team-row { grid-template-columns: 1fr; }
+      .diagram { grid-template-columns: 1fr; }
+      .diagram div { text-align: left; }
+      .lab { padding: 14px; }
+      th, td { padding: 8px; }
+      .table-wrap table { min-width: 540px; }
+    }
+    @media print { nav, button { display: none; } textarea { min-height: 110px; } section, .lab { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p><a href="index.html">All student labs</a></p>
+    <h1>C3390C Week 2: L03 and L04</h1>
+    <p>Development, test levels, test types, and testing after change</p>
+  </header>
+  <nav aria-label="Activities">
+    <a href="#a1">A1 Communication</a><a href="#a2">A2 Development</a><a href="#a3">A3 Test levels</a><a href="#a4">A4 Test types</a><a href="#a5">A5 Booking lab</a><a href="#a6">A6 Automation</a><a href="#exit">Exit</a>
+  </nav>
+  <main>
+    <p class="intro">A workshop provider is preparing a new booking release. Your team must decide what evidence supports it. Use made-up names and email addresses. This simulation does not create real registrations, send email, or connect to a backend.</p>
+    <div class="team-row">
+      <div><label for="team">Team</label><input id="team" placeholder="Team 1" maxlength="40"></div>
+      <p class="helper">Team notes stay in this tab until it closes or reloads. Export them before leaving and post them to your shared class board.</p>
+    </div>
+    <section id="opening">
+      <h2>Opening vote</h2>
+      <p>The developer fixed a reported bug and the original failing check now passes. Release, hold, or need more information? Give one reason.</p>
+      <label for="note-opening">Team vote and reason</label><textarea id="note-opening" data-title="Opening vote"></textarea>
+    </section>
+    <section id="a1">
+      <p class="tag">L03 Activity 1</p><h2>Constructive defect conversation</h2>
+      <div class="brief"><p>Reported message: "Your booking code is careless. You obviously didn't test it. Fix it."</p><p>Observed facts: On build A, after reset, a request for 4 places was confirmed when only 3 places were available. The display became -1.</p></div>
+      <p>Each person writes one factual sentence. Combine them into a useful report: starting state, inputs, expected result, actual result, impact, and a collaborative question. Role-play the developer asking for clarification and the tester responding.</p>
+      <label for="note-a1">A1 report and developer reply</label><textarea id="note-a1" data-title="A1 Constructive report" placeholder="Build / steps / expected / actual / impact / question / reply"></textarea>
+    </section>
+    <section id="a2">
+      <p class="tag">L03 Activity 2</p><h2>Testing through development</h2>
+      <p>The provider needs a small pilot soon. Fees may change after organiser feedback. Choose sequential or iterative/incremental delivery and justify it. Add a testing checkpoint at requirements, design/build, and release. For each, name an object to review or test and evidence to keep.</p>
+      <details><summary>Change request: open when the lecturer announces it</summary><div class="brief"><p>After the pilot, the organiser proposes a 10% STUDENT discount. What must be clarified? Add one new check and two previously working behaviours to recheck.</p></div></details>
+      <label for="note-a2">A2 approach and checkpoints</label><textarea id="note-a2" data-title="A2 Development and testing" placeholder="Approach and reason / three checkpoints and evidence / response to change"></textarea>
+    </section>
+    <section id="a3">
+      <p class="tag">L03 Activity 3</p><h2>What is under test?</h2>
+      <p>This sketch describes the proposed real product. The HTML lab below simulates booking logic locally; it does not implement these external services.</p>
+      <div class="diagram" role="img" aria-label="Proposed product: browser calls a booking service, which uses a price calculator and record store and connects to an external mail service.">
+        <div>Browser<small>Booking form</small></div><div>Booking service<small>Capacity and workflow</small></div><div>Price calculator<small>Quote rules</small></div><div>Record store<small>Saved bookings</small></div><div>Mail service<small>External confirmation</small></div>
+      </div>
+      <p>Classify each card as component, integration, system, or acceptance. State the test object and objective. Each person owns a card before the team agrees.</p>
+      <ol class="cards">
+        <li><strong>L1.</strong> Call an isolated price calculator with quantity 2 and STUDENT. Check for 36 without using the browser, storage, or other services.</li>
+        <li><strong>L2.</strong> Connect the booking service to record storage. Check that quantity 2 is saved in the agreed <code>seats</code> field as 2.</li>
+        <li><strong>L3.</strong> Submit a booking through the whole product and verify its confirmation, total, and available-place update against the specification.</li>
+        <li><strong>L4.</strong> Ask the intended organiser to prepare an event using the complete booking and attendee-list workflow, then decide whether it supports their operational needs.</li>
+        <li><strong>L5.</strong> Connect the booking system to the external mail service. Verify the agreed message payload and accepted/rejected response handling.</li>
+        <li><strong>L6.</strong> Call an isolated capacity validator with 3 available and a request for 4. Check that it refuses the request.</li>
+      </ol>
+      <div class="brief"><p><strong>Verification and validation:</strong> The specification requires an on-screen booking confirmation. It passes. The organiser needs a downloadable attendee list to run the event, but no list is available. What have we verified? What need still requires validation?</p></div>
+      <label for="note-a3">A3 levels, objects, objectives, and stakeholder task</label><textarea id="note-a3" data-title="A3 Test levels" placeholder="L1-L6: level / object / objective. Add verification check and validation task."></textarea>
+    </section>
+    <section id="a4">
+      <p class="tag">L04 Activity 1</p><h2>What question is the check answering?</h2>
+      <p>Classify the purpose of Q1-Q6 using functional, non-functional, structural, confirmation, or regression where relevant. Add static/dynamic and manual/automated. Explain your choices.</p>
+      <ol class="cards">
+        <li><strong>Q1.</strong> A person books two places through the full product and checks that the no-code total is S$40.</li>
+        <li><strong>Q2.</strong> An observer watches a first-time organiser complete a booking task in the running product, noting confusion and completion.</li>
+        <li><strong>Q3.</strong> A team reads the requirement "The booking page must be fast and easy" and identifies missing criteria before running any software.</li>
+        <li><strong>Q4.</strong> After a claimed capacity repair, a person repeats the reported four-place failure to check that it is corrected.</li>
+        <li><strong>Q5.</strong> After a capacity change, a script reruns a previously passing STUDENT discount assertion to look for unwanted effects.</li>
+        <li><strong>Q6.</strong> A unit-test runner executes both outcomes of the capacity guard and collects branch coverage.</li>
+      </ol>
+      <p>Propose a measurable replacement for "fast and easy". State the task, target, and environment or intended users. The stakeholder must agree any proposed targets.</p>
+      <label for="note-a4">A4 classifications and requirement proposal</label><textarea id="note-a4" data-title="A4 Test types and review" placeholder="Q1-Q6: type/purpose / static-dynamic / manual-automated / reason. Proposed requirement and assumptions."></textarea>
+    </section>
+    <section id="a5">
+      <p class="tag">L04 Activity 2</p><h2>Did the fix affect anything else?</h2>
+      <p>Predict from the rules, then compare builds. A is the original; B is a candidate capacity fix; C is a later candidate. Start each check with Reset demo. Switching build also resets booking data. Team notes remain intact.</p>
+      <ol>
+        <li><strong>R1.</strong> Start with 3 available places.</li>
+        <li><strong>R2.</strong> Accept whole-number requests from 1 to 3 only when sufficient places remain. Otherwise reject with no booking or capacity change.</li>
+        <li><strong>R3.</strong> Each place costs S$20. STUDENT gives 10% off the total; the code is case-insensitive and surrounding spaces are ignored.</li>
+        <li><strong>R4.</strong> A booking requires a non-empty name and an email in the form <code>name@domain.tld</code>.</li>
+        <li><strong>R5.</strong> Cancelling an active booking restores its places and removes it from the active list.</li>
+      </ol>
+      <div class="table-wrap"><table><caption>Manual checks: use a fictional name and email; reset before each test</caption><thead><tr><th>ID</th><th>Input or action</th><th>Expected result</th></tr></thead><tbody>
+        <tr><td>T1</td><td>Request 4 places, no code</td><td>Reject; 3 remain; no booking</td></tr>
+        <tr><td>T2</td><td>Request 3 places, no code</td><td>Accept S$60; 0 remain</td></tr>
+        <tr><td>T3</td><td>Request 2 places, STUDENT</td><td>Accept S$36; 1 remains</td></tr>
+        <tr><td>T4</td><td>Request 1 place, no code</td><td>Accept S$20; 2 remain</td></tr>
+        <tr><td>T5</td><td>Request 1 place, then Cancel</td><td>No active bookings; 3 remain</td></tr>
+      </tbody></table></div>
+      <div class="lab" aria-labelledby="demo-heading">
+        <h3 id="demo-heading">Workshop booking</h3>
+        <label for="build">Build</label><select id="build"><option value="A">A - Original</option><option value="B">B - Capacity fix candidate</option><option value="C">C - Later candidate</option></select>
+        <div class="app-grid">
+          <form id="booking-form" novalidate>
+            <label for="learner-name">Name</label><input id="learner-name" name="learnerName" autocomplete="off" maxlength="80">
+            <label for="learner-email">Email</label><input id="learner-email" name="learnerEmail" type="email" autocomplete="off" maxlength="120">
+            <label for="quantity">Places requested</label><input id="quantity" name="quantity" type="number" min="1" max="4" step="1" value="1">
+            <label for="promo">Discount code</label><input id="promo" name="promo" autocomplete="off" maxlength="40">
+            <p>Estimated total: <strong id="price">S$20.00</strong></p>
+            <div class="actions"><button type="submit">Book places</button><button id="reset-demo" type="button" class="secondary">Reset demo</button></div>
+            <div id="booking-status" role="status" aria-live="polite"></div>
+          </form>
+          <div>
+            <h3>Places available</h3><div class="summary"><strong id="available">3</strong></div>
+            <h3>Active bookings</h3><ol id="active-bookings"><li>None yet</li></ol>
+          </div>
+        </div>
+      </div>
+      <label for="note-a5">A5 build evidence and recommendation</label><textarea id="note-a5" data-title="A5 Build comparison" placeholder="Build / test / expected / actual / result. Which check confirms a repair? Which checks for regression? Release recommendation and uncertainty."></textarea>
+    </section>
+    <section id="a6">
+      <p class="tag">L04 Activity 3</p><h2>Where would automation help?</h2>
+      <p>Choose two tasks to automate first and one to keep human-led. Explain frequency, stable expected results, and setup or maintenance costs.</p>
+      <ul class="cards">
+        <li><strong>M1.</strong> Repeat stable price and capacity checks after every change.</li>
+        <li><strong>M2.</strong> Observe a new organiser finding confusing wording.</li>
+        <li><strong>M3.</strong> Check hundreds of stable invalid-input combinations.</li>
+        <li><strong>M4.</strong> Evaluate a changing prototype with no settled workflow.</li>
+      </ul>
+      <p>After collecting manual evidence, run the selected build's repeated checks. Compare the detail with your own results. These checks call the simulation's booking logic with fresh state for each test; they do not operate browser controls or test a real backend.</p>
+      <button id="run-checks" type="button">Run repeated checks</button>
+      <div id="suite-summary" role="status" aria-live="polite">No repeated checks run yet.</div>
+      <div class="table-wrap"><table id="suite-table" hidden><caption id="suite-caption">Repeated check results</caption><thead><tr><th>Check</th><th>Expected</th><th>Observed</th><th>Result</th></tr></thead><tbody id="suite-body"></tbody></table></div>
+      <label for="note-a6">A6 automation choice and limits</label><textarea id="note-a6" data-title="A6 Automation" placeholder="Two candidates and why / human-led task / maintenance cost / compare runner result / what remains untested"></textarea>
+    </section>
+    <section id="exit">
+      <h2>Exit ticket</h2>
+      <p>Individually: name one level and its test object, then a type for that same check. Explain confirmation versus regression using the builds. Name one remaining uncertainty. Agree a final team release recommendation.</p>
+      <label for="note-exit">Exit and final decision</label><textarea id="note-exit" data-title="Exit and release recommendation"></textarea>
+      <div class="actions"><button id="export-notes" type="button">Export team notes</button></div>
+      <div id="export-status" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+  <script>
+    'use strict';
+    const form = document.getElementById('booking-form');
+    const buildInput = document.getElementById('build');
+    const quantityInput = document.getElementById('quantity');
+    const promoInput = document.getElementById('promo');
+    const statusLabel = document.getElementById('booking-status');
+    const bookingsList = document.getElementById('active-bookings');
+    const availableLabel = document.getElementById('available');
+    const priceLabel = document.getElementById('price');
+    function newState() { return { available: 3, bookings: [], nextId: 1 }; }
+    let state = newState();
+
+    function quote(quantity, promo, build) {
+      const eligible = promo.trim().toUpperCase() === 'STUDENT';
+      const discount = eligible && build !== 'B' ? 0.9 : 1;
+      return Math.round(quantity * 20 * discount * 100) / 100;
+    }
+
+    function book(target, data, build) {
+      const name = data.name.trim();
+      const email = data.email.trim();
+      const quantity = Number(data.quantity);
+      if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return { ok: false, message: 'Enter a name and an email in the form name@domain.tld.' };
+      }
+      const maximum = build === 'A' ? 4 : 3;
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > maximum) {
+        return { ok: false, message: 'Request a whole number of places within the allowed range.' };
+      }
+      // The build variants provide controlled behaviour for the change-testing exercise.
+      const bypassCapacity = build === 'A' && quantity === 4;
+      if (quantity > target.available && !bypassCapacity) {
+        return { ok: false, message: 'Not enough places remain.' };
+      }
+      const booking = { id: target.nextId++, name, email, quantity, total: quote(quantity, data.promo, build), active: true };
+      target.bookings.push(booking);
+      target.available -= quantity;
+      return { ok: true, booking, message: 'Booking confirmed.' };
+    }
+
+    function cancel(target, id) {
+      const booking = target.bookings.find(item => item.id === id && item.active);
+      if (!booking) return false;
+      booking.active = false;
+      target.available += booking.quantity;
+      return true;
+    }
+
+    function setStatus(message, kind = '') {
+      statusLabel.textContent = message;
+      statusLabel.className = kind;
+    }
+    function updatePrice() {
+      const quantity = Number(quantityInput.value);
+      const total = Number.isFinite(quantity) ? quote(quantity, promoInput.value, buildInput.value) : 0;
+      priceLabel.textContent = `S$${total.toFixed(2)}`;
+    }
+    function render() {
+      availableLabel.textContent = String(state.available);
+      bookingsList.replaceChildren();
+      const active = state.bookings.filter(item => item.active);
+      for (const booking of active) {
+        const li = document.createElement('li');
+        const label = document.createElement('span');
+        label.textContent = `${booking.name}: ${booking.quantity} place(s), S$${booking.total.toFixed(2)}`;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'secondary';
+        button.textContent = 'Cancel';
+        button.setAttribute('aria-label', `Cancel booking for ${booking.name}`);
+        button.addEventListener('click', () => {
+          cancel(state, booking.id);
+          render();
+          setStatus('Booking cancelled.', 'success');
+        });
+        li.append(label, button);
+        bookingsList.append(li);
+      }
+      if (!active.length) {
+        const li = document.createElement('li');
+        li.textContent = 'None yet';
+        bookingsList.append(li);
+      }
+    }
+    function resetDemo(message = 'Demo reset.') {
+      state = newState();
+      form.reset();
+      updatePrice();
+      render();
+      setStatus(message);
+    }
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const fields = new FormData(form);
+      const result = book(state, { name: fields.get('learnerName'), email: fields.get('learnerEmail'), quantity: fields.get('quantity'), promo: fields.get('promo') }, buildInput.value);
+      render();
+      setStatus(result.message, result.ok ? 'success' : 'error');
+    });
+    document.getElementById('reset-demo').addEventListener('click', () => resetDemo());
+    quantityInput.addEventListener('input', updatePrice);
+    promoInput.addEventListener('input', updatePrice);
+    buildInput.addEventListener('change', () => {
+      resetDemo(`Build ${buildInput.value} selected. Demo reset.`);
+      document.getElementById('suite-table').hidden = true;
+      document.getElementById('suite-summary').textContent = 'No repeated checks run for this selection.';
+    });
+
+    function repeatedChecks(build) {
+      const cases = [
+        { id: 'T1', quantity: 4, promo: '', expected: 'Rejected; 3 available; 0 active', ok: false, available: 3, count: 0 },
+        { id: 'T2', quantity: 3, promo: '', expected: 'S$60.00; 0 available; 1 active', ok: true, total: 60, available: 0, count: 1 },
+        { id: 'T3', quantity: 2, promo: 'STUDENT', expected: 'S$36.00; 1 available; 1 active', ok: true, total: 36, available: 1, count: 1 },
+        { id: 'T4', quantity: 1, promo: '', expected: 'S$20.00; 2 available; 1 active', ok: true, total: 20, available: 2, count: 1 },
+        { id: 'T5', quantity: 1, promo: '', cancel: true, expected: 'Cancelled; 3 available; 0 active', ok: true, available: 3, count: 0 }
+      ];
+      return cases.map(test => {
+        const isolated = newState();
+        const result = book(isolated, { name: 'Test Learner', email: 'test@example.com', quantity: test.quantity, promo: test.promo }, build);
+        const cancelled = test.cancel && result.ok ? cancel(isolated, result.booking.id) : false;
+        const count = isolated.bookings.filter(item => item.active).length;
+        const pass = result.ok === test.ok && isolated.available === test.available && count === test.count && (test.total === undefined || result.booking?.total === test.total) && (!test.cancel || cancelled);
+        const outcome = test.cancel && cancelled ? 'Cancelled' : result.ok ? `S$${result.booking.total.toFixed(2)}` : 'Rejected';
+        return { id: test.id, expected: test.expected, actual: `${outcome}; ${isolated.available} available; ${count} active`, pass };
+      });
+    }
+    document.getElementById('run-checks').addEventListener('click', () => {
+      const results = repeatedChecks(buildInput.value);
+      const body = document.getElementById('suite-body');
+      body.replaceChildren();
+      for (const result of results) {
+        const row = document.createElement('tr');
+        for (const value of [result.id, result.expected, result.actual, result.pass ? 'PASS' : 'FAIL']) {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.append(cell);
+        }
+        row.lastElementChild.className = result.pass ? 'pass' : 'fail';
+        body.append(row);
+      }
+      document.getElementById('suite-table').hidden = false;
+      document.getElementById('suite-caption').textContent = `Build ${buildInput.value}: repeated checks`;
+      document.getElementById('suite-summary').textContent = `Build ${buildInput.value}: ${results.filter(item => item.pass).length} of ${results.length} checks passed. Inspect each result before deciding.`;
+    });
+
+    document.getElementById('export-notes').addEventListener('click', () => {
+      const team = document.getElementById('team').value.trim() || 'Team';
+      const parts = [`# C3390C Week 2 team notes\n\n${team}`];
+      document.querySelectorAll('textarea[data-title]').forEach(note => parts.push(`## ${note.dataset.title}\n\n${note.value.trim() || '(No response recorded)'}`));
+      const blob = new Blob([parts.join('\n\n') + '\n'], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'C3390C-Week02-Team-Notes.md';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.getElementById('export-status').textContent = 'Team notes exported. Post the file or its contents to your shared class board.';
+    });
+    updatePrice();
+    render();
+  </script>
+</body>
+</html>
+
