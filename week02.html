@@ -52,16 +52,18 @@
     #active-bookings { padding-left: 22px; }
     #active-bookings button { display: block; margin-top: 6px; }
     .helper { color: #4b5b61; font-size: .93rem; }
-    .team-row { display: grid; grid-template-columns: minmax(160px, 280px) 1fr; gap: 20px; align-items: end; }
+    .notes-row { display: grid; grid-template-columns: minmax(160px, 280px) 1fr; gap: 20px; align-items: end; }
+    .mapping textarea { min-height: 58px; }
     code { overflow-wrap: anywhere; }
     @media (max-width: 680px) {
       h1 { font-size: 1.35rem; }
-      .app-grid, .team-row { grid-template-columns: 1fr; }
+      .app-grid, .notes-row { grid-template-columns: 1fr; }
       .diagram { grid-template-columns: 1fr; }
       .diagram div { text-align: left; }
       .lab { padding: 14px; }
       th, td { padding: 8px; }
       .table-wrap table { min-width: 540px; }
+      .table-wrap table.mapping { min-width: 0; }
     }
     @media print { nav, button { display: none; } textarea { min-height: 110px; } section, .lab { break-inside: avoid; } }
   </style>
@@ -73,30 +75,26 @@
     <p>Development, test levels, test types, and testing after change</p>
   </header>
   <nav aria-label="Activities">
-    <a href="#a1">A1 Communication</a><a href="#a2">A2 Development</a><a href="#a3">A3 Test levels</a><a href="#a4">A4 Test types</a><a href="#a5">A5 Booking lab</a><a href="#a6">A6 Automation</a><a href="#exit">Exit</a>
+    <a href="#a1">A1 Communication</a><a href="#a2">A2 Development</a><a href="#a3">A3 Test levels</a><a href="#lesson-break">Break</a><a href="#a4">A4 Test types</a><a href="#a5">A5 Booking lab</a><a href="#a6">A6 Automation</a><a href="#exit">Exit</a>
   </nav>
   <main>
     <section id="hbl">
       <h2>Today on Teams: 120 minutes</h2>
-      <p>100 minutes of learning and a 20-minute break. Work individually first; compare your evidence in one short team discussion. Post the requested short answers in the main Teams meeting chat. These note fields are optional scratch space and do not submit answers automatically.</p>
+      <p>100 minutes of learning and a 20-minute break between L03 and L04. All activities are individual, with lecturer-led discussion in the main Teams meeting. Post the requested short answers in meeting chat. These note fields are optional personal scratch space and do not submit answers automatically.</p>
       <ul>
-        <li><strong>0-50:</strong> Guided A1-A4 and individual chat responses. Core cards: L1-L4 and Q1/Q2/Q3/Q6.</li>
-        <li><strong>50-70:</strong> 20-minute break. Follow the lecturer's stated return time.</li>
-        <li><strong>70-90:</strong> Lab briefing, then individual T1/T3 on A and B. Post your observations before the team discussion. Try C/T3 if ready.</li>
-        <li><strong>90-102:</strong> One evidence comparison in teams of five, or in the main meeting if rooms are unavailable. The recorder posts the group result in the main chat after returning.</li>
-        <li><strong>102-120:</strong> Debrief, automation comparison M1/M2, and individual exit. Extra cards and full written templates are optional consolidation.</li>
+        <li><strong>0-50, L03:</strong> A1 communication, A2 development/testing, and A3 mapping all L1-L6 tasks to the four levels.</li>
+        <li><strong>50-70:</strong> 20-minute break between the lessons. Follow the lecturer's stated return time.</li>
+        <li><strong>70-82, L04 A4:</strong> Guided test-type discussion using Q1/Q2/Q3/Q6.</li>
+        <li><strong>82-104, L04 A5:</strong> Individual T1/T3 on A and B, then your own confirmation/regression conclusion. Check C/T3 afterward.</li>
+        <li><strong>104-115, L04 A6:</strong> Decide an approach for all M1-M4 and compare repeated checks with your manual evidence.</li>
+        <li><strong>115-120:</strong> Individual exit and lecturer feedback.</li>
       </ul>
     </section>
-    <p class="intro">A workshop provider is preparing a new booking release. Your team must decide what evidence supports it. Use made-up names and email addresses. This simulation does not create real registrations, send email, or connect to a backend.</p>
-    <div class="team-row">
-      <div><label for="team">Team</label><input id="team" placeholder="Team 1" maxlength="40"></div>
-      <p class="helper">Notes stay in this tab until it closes or reloads. Copy the required short observations to Teams chat. Exporting the full notes is optional; these fields are not shared between team members.</p>
+    <p class="intro">A workshop provider is preparing a new booking release. Decide what evidence supports it. Use made-up names and email addresses. This simulation does not create real registrations, send email, or connect to a backend.</p>
+    <div class="notes-row">
+      <div><label for="response-label">Response label (optional)</label><input id="response-label" placeholder="Learner A" maxlength="40"></div>
+      <p class="helper">Notes stay in this tab until it closes or reloads. Copy the required short observations to Teams chat. Exporting your notes is optional; these fields are private to your current browser tab.</p>
     </div>
-    <section id="opening">
-      <h2>Opening vote</h2>
-      <p>The developer fixed a reported bug and the original failing check now passes. Release, hold, or need more information? Give one reason.</p>
-      <label for="note-opening">Team vote and reason</label><textarea id="note-opening" data-title="Opening vote"></textarea>
-    </section>
     <section id="a1">
       <p class="tag">L03 Activity 1</p><h2>Constructive defect conversation</h2>
       <div class="brief"><p>Reported message: "Your booking code is careless. You obviously didn't test it. Fix it."</p><p>Observed facts: On build A, after reset, a request for 4 places was confirmed when only 3 places were available. The display became -1.</p></div>
@@ -105,31 +103,41 @@
     </section>
     <section id="a2">
       <p class="tag">L03 Activity 2</p><h2>Testing through development</h2>
-      <p>The provider needs a small pilot soon. Fees may change after organiser feedback. During the guided discussion, suggest sequential or iterative/incremental delivery and one concrete check before coding. After the change request, suggest one new check and one existing behaviour to recheck. A full team plan is optional consolidation.</p>
-      <details><summary>Change request: open when the lecturer announces it</summary><div class="brief"><p>After the pilot, the organiser proposes a 10% STUDENT discount. What must be clarified? Add one new check and two previously working behaviours to recheck.</p></div></details>
+      <p>The provider needs a small pilot soon. Fees may change after organiser feedback. During the guided discussion, suggest sequential or iterative/incremental delivery and one concrete check before coding. After the change request, suggest one new check and one existing behaviour to recheck.</p>
+      <details><summary>Change request: open when the lecturer announces it</summary><div class="brief"><p>After the pilot, the organiser proposes a 10% STUDENT discount. What must be clarified? Add one new check and one previously working behaviour to recheck.</p></div></details>
       <label for="note-a2">A2 approach and checkpoints</label><textarea id="note-a2" data-title="A2 Development and testing" placeholder="Approach and reason / three checkpoints and evidence / response to change"></textarea>
     </section>
     <section id="a3">
-      <p class="tag">L03 Activity 3</p><h2>What is under test?</h2>
+      <p class="tag">L03 Activity 3</p><h2>Map the four test levels to L1-L6</h2>
       <p>This sketch describes the proposed real product. The HTML lab below simulates booking logic locally; it does not implement these external services.</p>
       <div class="diagram" role="img" aria-label="Proposed product: browser calls a booking service, which uses a price calculator and record store and connects to an external mail service.">
         <div>Browser<small>Booking form</small></div><div>Booking service<small>Capacity and workflow</small></div><div>Price calculator<small>Quote rules</small></div><div>Record store<small>Saved bookings</small></div><div>Mail service<small>External confirmation</small></div>
       </div>
-      <p>Core: classify L1-L4 individually as component, integration, system, or acceptance. Prepare one reason. Send <code>LEVELS: L1=... L2=... L3=... L4=...</code> in Teams chat on the signal. L5/L6 are optional later practice.</p>
+      <p>Individually map all six tasks below to the four test levels: component/unit, integration, system, and acceptance. Use each task ID once. A level can match more than one task. Complete the four rows and give one reason for your mapping.</p>
       <ol class="cards">
         <li><strong>L1.</strong> Call an isolated price calculator with quantity 2 and STUDENT. Check for 36 without using the browser, storage, or other services.</li>
         <li><strong>L2.</strong> Connect the booking service to record storage. Check that quantity 2 is saved in the agreed <code>seats</code> field as 2.</li>
         <li><strong>L3.</strong> Submit a booking through the whole product and verify its confirmation, total, and available-place update against the specification.</li>
         <li><strong>L4.</strong> Ask the intended organiser to prepare an event using the complete booking and attendee-list workflow, then decide whether it supports their operational needs.</li>
-        <li><strong>L5 (extension).</strong> Connect the booking system to the external mail service. Verify the agreed message payload and accepted/rejected response handling.</li>
-        <li><strong>L6 (extension).</strong> Call an isolated capacity validator with 3 available and a request for 4. Check that it refuses the request.</li>
+        <li><strong>L5.</strong> Connect the booking system to the external mail service. Verify the agreed message payload and accepted/rejected response handling.</li>
+        <li><strong>L6.</strong> Call an isolated capacity validator with 3 available and a request for 4. Check that it refuses the request.</li>
       </ol>
+      <div class="table-wrap"><table class="mapping"><caption>Your mapping: task IDs L1-L6</caption><thead><tr><th>Test level</th><th>Matching task IDs</th></tr></thead><tbody>
+        <tr><th scope="row"><label for="map-component">Component / unit</label></th><td><textarea id="map-component" rows="1" data-title="A3 Component / unit" placeholder="Task ID(s)"></textarea></td></tr>
+        <tr><th scope="row"><label for="map-integration">Integration</label></th><td><textarea id="map-integration" rows="1" data-title="A3 Integration" placeholder="Task ID(s)"></textarea></td></tr>
+        <tr><th scope="row"><label for="map-system">System</label></th><td><textarea id="map-system" rows="1" data-title="A3 System" placeholder="Task ID(s)"></textarea></td></tr>
+        <tr><th scope="row"><label for="map-acceptance">Acceptance</label></th><td><textarea id="map-acceptance" rows="1" data-title="A3 Acceptance" placeholder="Task ID(s)"></textarea></td></tr>
+      </tbody></table></div>
       <div class="brief"><p><strong>Verification and validation:</strong> The specification requires an on-screen booking confirmation. It passes. The organiser needs a downloadable attendee list to run the event, but no list is available. What have we verified? What need still requires validation?</p></div>
-      <label for="note-a3">A3 levels, objects, objectives, and stakeholder task</label><textarea id="note-a3" data-title="A3 Test levels" placeholder="L1-L6: level / object / objective. Add verification check and validation task."></textarea>
+      <label for="note-a3">A3 mapping reason and stakeholder need</label><textarea id="note-a3" data-title="A3 Mapping reason and needs" placeholder="Reason for one mapping / written behaviour checked / organiser need still unmet"></textarea>
+    </section>
+    <section id="lesson-break">
+      <h2>20-minute break</h2>
+      <p>L03 is complete. Take the break at elapsed minutes 50-70 and return at the time stated by the lecturer. L04 begins with A4 below.</p>
     </section>
     <section id="a4">
       <p class="tag">L04 Activity 1</p><h2>What question is the check answering?</h2>
-      <p>Core guided discussion: Q1/Q2/Q3/Q6. Identify their objectives and static/dynamic or manual/automated dimensions. Q4/Q5 will be explored through the lab after the break. Completing a full six-card written classification is optional.</p>
+      <p>After the break, begin L04 with Q1/Q2/Q3/Q6. Identify their objectives and static/dynamic or manual/automated dimensions. Q4/Q5 will be explored through A5. Completing a full six-card written classification is optional.</p>
       <ol class="cards">
         <li><strong>Q1.</strong> A person books two places through the full product and checks that the no-code total is S$40.</li>
         <li><strong>Q2.</strong> An observer watches a first-time organiser complete a booking task in the running product, noting confusion and completion.</li>
@@ -143,8 +151,8 @@
     </section>
     <section id="a5">
       <p class="tag">L04 Activity 2</p><h2>Did the fix affect anything else?</h2>
-      <p>Predict from the rules, then test individually. A is the original; B is a candidate capacity fix; C is a later candidate. Core: T1 and T3 on A and B, then C/T3 if ready. Start each check with Reset demo. Switching build also resets booking data. Notes remain intact. T2/T4/T5 are optional manual checks during this session.</p>
-      <p>Post before the comparison: <code>LAB: A/T1 available=...; B/T1 available=...; A/T3 total=...; B/T3 total=...; difference=...</code>.</p>
+      <p>Predict from the rules, then test individually. A is the original; B is a candidate capacity fix; C is a later candidate. Run T1 and T3 on A and B, then check C/T3. Start each check with Reset demo. Switching build also resets booking data. Notes remain intact. T2/T4/T5 are additional manual checks if time permits.</p>
+      <p>Post your own evidence: <code>LAB: A/T1 available=...; B/T1 available=...; A/T3 total=...; B/T3 total=...</code>.</p>
       <ol>
         <li><strong>R1.</strong> Start with 3 available places.</li>
         <li><strong>R2.</strong> Accept whole-number requests from 1 to 3 only when sufficient places remain. Otherwise reject with no booking or capacity change.</li>
@@ -179,30 +187,30 @@
         </div>
       </div>
       <label for="note-a5">A5 build evidence and recommendation</label><textarea id="note-a5" data-title="A5 Build comparison" placeholder="Build / test / expected / actual / result. Which check confirms a repair? Which checks for regression? Release recommendation and uncertainty."></textarea>
-      <h3>One team comparison</h3>
-      <p>B rejects 4 places. Is that enough to release it? Compare capacity and STUDENT discount evidence with A. Member 1 contributes A/T1, member 2 B/T1, member 3 A/T3, member 4 B/T3, and member 5 challenges and records. With four members, member 4 also records. Voice or room-chat contributions both work. No screen share is required.</p>
-      <p>The recorder posts four evidence lines and one recommendation in the main Teams meeting chat after returning. If rooms are unavailable, compare the posted evidence in the main meeting and give your own recommendation.</p>
+      <h3>Your individual conclusion</h3>
+      <p>Which result checks that the specific capacity failure was corrected? Which checks for an unintended effect on an existing feature? Is a passed confirmation check sufficient to conclude that other behaviour still works? Explain why regression testing is needed, using your observations. Recommend release or hold for B, with a reason.</p>
+      <p>Then check the later repair with C/T3. If time permits, add C/T4 as a retained no-code path. State one uncertainty that remains even when selected checks pass.</p>
     </section>
     <section id="a6">
       <p class="tag">L04 Activity 3</p><h2>Where would automation help?</h2>
-      <p>Core: compare M1 and M2. Which is a strong automation candidate, and where does human observation help? Give one reason in Teams chat. M3/M4 are optional further practice.</p>
+      <p>Individually consider all four scenarios M1-M4. For each, choose automate, human-led, or a combination, and give a reason about repetition, stable expected results, human judgment, or maintenance. These are four task scenarios to evaluate, not four separate runnable tools.</p>
       <ul class="cards">
         <li><strong>M1.</strong> Repeat stable price and capacity checks after every change.</li>
         <li><strong>M2.</strong> Observe a new organiser finding confusing wording.</li>
         <li><strong>M3.</strong> Check hundreds of stable invalid-input combinations.</li>
         <li><strong>M4.</strong> Evaluate a changing prototype with no settled workflow.</li>
       </ul>
-      <p>Wait until after the individual experiment and comparison. The lecturer will run B's repeated checks; you can follow along and compare them with your manual results. These checks call the simulation's booking logic with fresh state for each test; they do not operate browser controls or test a real backend.</p>
+      <p>After recording your A5 evidence and decisions for M1-M4, select B and run repeated checks. Compare the detailed results with your manual observations. These checks call the simulation's booking logic with fresh state for each test; they do not operate browser controls or test a real backend, observe actual users, or provide a separate prototype.</p>
       <button id="run-checks" type="button">Run repeated checks</button>
       <div id="suite-summary" role="status" aria-live="polite">No repeated checks run yet.</div>
       <div class="table-wrap"><table id="suite-table" hidden><caption id="suite-caption">Repeated check results</caption><thead><tr><th>Check</th><th>Expected</th><th>Observed</th><th>Result</th></tr></thead><tbody id="suite-body"></tbody></table></div>
-      <label for="note-a6">A6 automation choice and limits</label><textarea id="note-a6" data-title="A6 Automation" placeholder="Two candidates and why / human-led task / maintenance cost / compare runner result / what remains untested"></textarea>
+      <label for="note-a6">A6 decisions for M1-M4 and limits</label><textarea id="note-a6" data-title="A6 Automation" placeholder="M1: approach / reason&#10;M2: approach / reason&#10;M3: approach / reason&#10;M4: approach / reason&#10;Runner comparison / what remains untested"></textarea>
     </section>
     <section id="exit">
       <h2>Exit ticket</h2>
-      <p>Individually post in Teams chat by elapsed minute 116: <code>EXIT: level + object=...; type=...; confirmation example=...; regression example=...; still untested=...</code>. The remaining four minutes allow feedback or absorb earlier delay. No full worksheet or notes-file submission is required for this live session.</p>
+      <p>Individually post in Teams chat by elapsed minute 118: <code>EXIT: level + object=...; type=...; confirmation example=...; regression example=...; still untested=...</code>. The remaining two minutes allow feedback or absorb earlier delay. No full worksheet or notes-file submission is required for this live session.</p>
       <label for="note-exit">Exit and final decision</label><textarea id="note-exit" data-title="Exit and release recommendation"></textarea>
-      <div class="actions"><button id="export-notes" type="button">Export team notes</button></div>
+      <div class="actions"><button id="export-notes" type="button">Export my notes</button></div>
       <div id="export-status" role="status" aria-live="polite"></div>
     </section>
   </main>
@@ -352,14 +360,14 @@
     });
 
     document.getElementById('export-notes').addEventListener('click', () => {
-      const team = document.getElementById('team').value.trim() || 'Team';
-      const parts = [`# C3390C Week 2 team notes\n\n${team}`];
+      const responseLabel = document.getElementById('response-label').value.trim() || 'Individual response';
+      const parts = [`# C3390C Week 2 individual notes\n\n${responseLabel}`];
       document.querySelectorAll('textarea[data-title]').forEach(note => parts.push(`## ${note.dataset.title}\n\n${note.value.trim() || '(No response recorded)'}`));
       const blob = new Blob([parts.join('\n\n') + '\n'], { type: 'text/markdown;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'C3390C-Week02-Team-Notes.md';
+      link.download = 'C3390C-Week02-Individual-Notes.md';
       document.body.append(link);
       link.click();
       link.remove();
