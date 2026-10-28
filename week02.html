@@ -52,12 +52,11 @@
     #active-bookings { padding-left: 22px; }
     #active-bookings button { display: block; margin-top: 6px; }
     .helper { color: #4b5b61; font-size: .93rem; }
-    .notes-row { display: grid; grid-template-columns: minmax(160px, 280px) 1fr; gap: 20px; align-items: end; }
     .mapping textarea { min-height: 58px; }
     code { overflow-wrap: anywhere; }
     @media (max-width: 680px) {
       h1 { font-size: 1.35rem; }
-      .app-grid, .notes-row { grid-template-columns: 1fr; }
+      .app-grid { grid-template-columns: 1fr; }
       .diagram { grid-template-columns: 1fr; }
       .diagram div { text-align: left; }
       .lab { padding: 14px; }
@@ -78,23 +77,8 @@
     <a href="#a1">A1 Communication</a><a href="#a2">A2 Development</a><a href="#a3">A3 Test levels</a><a href="#lesson-break">Break</a><a href="#a4">A4 Test types</a><a href="#a5">A5 Booking lab</a><a href="#a6">A6 Automation</a><a href="#exit">Exit</a>
   </nav>
   <main>
-    <section id="hbl">
-      <h2>Today on Teams: 120 minutes</h2>
-      <p>100 minutes of learning and a 20-minute break between L03 and L04. All activities are individual, with lecturer-led discussion in the main Teams meeting. Post the requested short answers in meeting chat. These note fields are optional personal scratch space and do not submit answers automatically.</p>
-      <ul>
-        <li><strong>0-50, L03:</strong> A1 communication, A2 development/testing, and A3 mapping all L1-L6 tasks to the four levels.</li>
-        <li><strong>50-70:</strong> 20-minute break between the lessons. Follow the lecturer's stated return time.</li>
-        <li><strong>70-82, L04 A4:</strong> Guided test-type discussion using Q1/Q2/Q3/Q6.</li>
-        <li><strong>82-104, L04 A5:</strong> Individual T1/T3 on A and B, then your own confirmation/regression conclusion. Check C/T3 afterward.</li>
-        <li><strong>104-115, L04 A6:</strong> Decide an approach for all M1-M4 and compare repeated checks with your manual evidence.</li>
-        <li><strong>115-120:</strong> Individual exit and lecturer feedback.</li>
-      </ul>
-    </section>
     <p class="intro">A workshop provider is preparing a new booking release. Decide what evidence supports it. Use made-up names and email addresses. This simulation does not create real registrations, send email, or connect to a backend.</p>
-    <div class="notes-row">
-      <div><label for="response-label">Response label (optional)</label><input id="response-label" placeholder="Learner A" maxlength="40"></div>
-      <p class="helper">Notes stay in this tab until it closes or reloads. Copy the required short observations to Teams chat. Exporting your notes is optional; these fields are private to your current browser tab.</p>
-    </div>
+    <p class="helper">Work individually and post the requested short responses in Teams chat. These fields are optional personal notes, not automatic submissions. Notes disappear on reload or close; exporting them is optional.</p>
     <section id="a1">
       <p class="tag">L03 Activity 1</p><h2>Constructive defect conversation</h2>
       <div class="brief"><p>Reported message: "Your booking code is careless. You obviously didn't test it. Fix it."</p><p>Observed facts: On build A, after reset, a request for 4 places was confirmed when only 3 places were available. The display became -1.</p></div>
@@ -133,7 +117,7 @@
     </section>
     <section id="lesson-break">
       <h2>20-minute break</h2>
-      <p>L03 is complete. Take the break at elapsed minutes 50-70 and return at the time stated by the lecturer. L04 begins with A4 below.</p>
+      <p>L03 is complete. Return at the time stated by the lecturer. L04 begins with A4 below.</p>
     </section>
     <section id="a4">
       <p class="tag">L04 Activity 1</p><h2>What question is the check answering?</h2>
@@ -208,7 +192,7 @@
     </section>
     <section id="exit">
       <h2>Exit ticket</h2>
-      <p>Individually post in Teams chat by elapsed minute 118: <code>EXIT: level + object=...; type=...; confirmation example=...; regression example=...; still untested=...</code>. The remaining two minutes allow feedback or absorb earlier delay. No full worksheet or notes-file submission is required for this live session.</p>
+      <p>Individually post in Teams chat: <code>EXIT: level + object=...; type=...; confirmation example=...; regression example=...; still untested=...</code>. No full worksheet or notes-file submission is required for this live session.</p>
       <label for="note-exit">Exit and final decision</label><textarea id="note-exit" data-title="Exit and release recommendation"></textarea>
       <div class="actions"><button id="export-notes" type="button">Export my notes</button></div>
       <div id="export-status" role="status" aria-live="polite"></div>
@@ -360,8 +344,7 @@
     });
 
     document.getElementById('export-notes').addEventListener('click', () => {
-      const responseLabel = document.getElementById('response-label').value.trim() || 'Individual response';
-      const parts = [`# C3390C Week 2 individual notes\n\n${responseLabel}`];
+      const parts = ['# C3390C Week 2 individual notes'];
       document.querySelectorAll('textarea[data-title]').forEach(note => parts.push(`## ${note.dataset.title}\n\n${note.value.trim() || '(No response recorded)'}`));
       const blob = new Blob([parts.join('\n\n') + '\n'], { type: 'text/markdown;charset=utf-8' });
       const url = URL.createObjectURL(blob);
