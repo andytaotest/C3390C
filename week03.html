@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C3390C Week 3: L05 and L06</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #20272b; background: #f7f9f8; line-height: 1.55; }
+    header { background: #173f46; color: white; padding: 24px max(20px, calc((100vw - 1060px)/2)); }
+    header h1 { font-size: 1.6rem; margin: 0 0 5px; }
+    header p { margin: 0; color: #e2eff0; }
+    header a { color: white; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px 20px; border-bottom: 1px solid #c9d6d4; padding: 12px max(20px, calc((100vw - 1060px)/2)); background: white; }
+    a { color: #145e63; }
+    main { max-width: 1060px; padding: 20px 20px 60px; margin: 0 auto; }
+    section { padding: 20px 0; border-bottom: 1px solid #c9d6d4; scroll-margin-top: 12px; }
+    h2 { font-size: 1.25rem; margin: 0 0 12px; }
+    p { margin: 8px 0 12px; }
+    li { margin: 6px 0; }
+    .tag, .helper { color: #4b5b61; font-size: .93rem; }
+    .tag { font-weight: 600; }
+    .brief { border-left: 4px solid #7b619b; padding: 5px 16px; background: #f1eef6; margin: 14px 0; }
+    label { display: block; font-weight: 600; margin: 10px 0 5px; }
+    textarea { font: inherit; width: 100%; min-height: 110px; resize: vertical; border: 1px solid #82989a; border-radius: 4px; padding: 9px; }
+    :focus-visible { outline: 3px solid #427bb5; outline-offset: 3px; }
+    button { font: inherit; min-height: 44px; padding: 9px 14px; border-radius: 4px; border: 1px solid #235d60; color: white; background: #235d60; cursor: pointer; }
+    button:hover { filter: brightness(.92); }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #ccd7d6; vertical-align: top; }
+    th { background: #eaf0ef; }
+    code { overflow-wrap: anywhere; }
+    #export-status { min-height: 30px; }
+    @media print { nav, button { display: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p><a href="index.html">All student labs</a></p>
+    <h1>C3390C Week 3: L05 and L06</h1>
+    <p>Managing change, testing techniques, test plans and test cases</p>
+  </header>
+  <nav aria-label="Activities">
+    <a href="#a1">A1 Managing change</a>
+    <a href="#a2">A2 Testing techniques</a>
+    <a href="#lesson-break">Break</a>
+    <a href="#a3">A3 Test plan</a>
+    <a href="#a4">A4 Test case</a>
+    <a href="#exit">Exit</a>
+  </nav>
+  <main>
+    <p>Work individually and post the requested short answers in Teams chat. This exercise uses the familiar workshop booking app. The cancellation rule is hypothetical; you do not need to run the app.</p>
+    <p class="helper">These notes stay in this tab until it closes or reloads. Exporting them is optional.</p>
+    <section aria-labelledby="case-heading">
+      <h2 id="case-heading">Workshop booking change request</h2>
+      <p>Successful bookings reduce availability. Requests exceeding capacity are rejected. Cancelling an active booking restores its seats.</p>
+      <div class="brief">
+        <p><strong>R-CANCEL:</strong> Introduce a 24-hour cancellation cutoff. Clearly late cancellations must be rejected: keep the booking active, leave availability unchanged and display <strong>Cancellation closes 24 hours before the workshop.</strong> Clearly early cancellations still work as before.</p>
+        <p>Confirm the rule at exactly 24 hours and the authoritative clock and time zone. Until then, use clearly early or late cases. The project has 30 minutes of shared staging access.</p>
+      </div>
+    </section>
+    <section id="a1">
+      <p class="tag">L05 Activity 1</p>
+      <h2>Manage the change</h2>
+      <ol>
+        <li>Identify one point to clarify and one risk if the change is misunderstood.</li>
+        <li>Choose one new check and two existing checks to prioritise. Explain why.</li>
+        <li>Decide what to update in the plan or cases, and who needs to know about deferred coverage.</li>
+      </ol>
+      <p><strong>Chat:</strong> <code>A1: clarify ... / new check ... / existing checks ... / update and notify ...</code></p>
+      <label for="note-a1">A1 Change impact notes</label>
+      <textarea id="note-a1" data-title="A1 Managing change"></textarea>
+    </section>
+    <section id="a2">
+      <p class="tag">L05 Activity 2</p>
+      <h2>Choose a testing technique</h2>
+      <p>Match each proposal to black-box, white-box or experience-based testing. Explain what information drove your choice.</p>
+      <ol>
+        <li><strong>T1.</strong> Use R-CANCEL to choose a cancellation two hours before the workshop. Compare booking status, seat count and message with the rule.</li>
+        <li><strong>T2.</strong> Inspect the cutoff decision in the code. Choose times that exercise its block and allow branches, with other checks satisfied.</li>
+        <li><strong>T3.</strong> Recall a double-click that restored seats twice in another app. Try repeated cancellation on an eligible booking and record the sequence and seat count.</li>
+      </ol>
+      <p>Documentation is incomplete. Propose a focused five-minute exploration: state the risk, what you would try, and what evidence you would record. Flag any unclear expectation.</p>
+      <p><strong>Chat:</strong> <code>A2: T1=... T2=... T3=... / basis for one ... / charter and evidence ...</code></p>
+      <label for="note-a2">A2 Technique choices and exploration</label>
+      <textarea id="note-a2" data-title="A2 Testing techniques"></textarea>
+    </section>
+    <section id="lesson-break">
+      <h2>20-minute break</h2>
+      <p>Return at the time stated by your lecturer. L06 begins with A3.</p>
+    </section>
+    <section id="a3">
+      <p class="tag">L06 Activity 1</p>
+      <h2>Adapt the test plan</h2>
+      <table aria-label="Baseline booking test plan">
+        <thead><tr><th scope="col">Baseline plan</th><th scope="col">Details</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Objective</th><td>Verify capacity and seat counts.</td></tr>
+          <tr><th scope="row">Environment</th><td>Staging build with resettable fictional bookings.</td></tr>
+          <tr><th scope="row">Schedule</th><td>30 minutes for setup, priority checks and reporting.</td></tr>
+          <tr><th scope="row">Case summary</th><td>BOOK-01 successful booking; BOOK-02 reject above capacity; BOOK-03 cancel and restore seats.</td></tr>
+        </tbody>
+      </table>
+      <p>Amend this plan for R-CANCEL. Include scope, ownership or resources, risk, and conditions for starting and reporting completion. Identify something to defer or escalate. The 30 minutes is the scenario's test window.</p>
+      <p><strong>Chat:</strong> <code>A3: objective and scope ... / owner and setup ... / risk ... / start when ... / finish when ... / defer or escalate ...</code></p>
+      <label for="note-a3">A3 Test plan amendment</label>
+      <textarea id="note-a3" data-title="A3 Test plan amendment"></textarea>
+    </section>
+    <section id="a4">
+      <p class="tag">L06 Activity 2</p>
+      <h2>Design and judge a test case</h2>
+      <p><strong>Baseline BOOK-01:</strong> With three seats available, book one seat. Expect an active one-seat booking and two seats remaining.</p>
+      <p>Draft a blocked cancellation case two hours before the workshop. Outline an eligible comparison 25 hours before. For each, start with an active one-seat booking and two seats available out of three. Record the clock and workshop start time, and reset the initial state between cases.</p>
+      <p><strong>Chat:</strong> <code>A4: ID and requirement ... / setup ... / action ... / expected ...</code></p>
+      <label for="note-a4">A4 Test design</label>
+      <textarea id="note-a4" data-title="A4 Test design" placeholder="ID and requirement / purpose / preconditions and data / steps / expected status, availability and message / eligible comparison"></textarea>
+      <label for="note-result">Observed result and verdict</label>
+      <p id="result-hint" class="helper">After the lecturer reveals the observation, record the actual result, pass or fail, and exactly why.</p>
+      <textarea id="note-result" data-title="A4 Observed result and verdict" aria-describedby="result-hint"></textarea>
+    </section>
+    <section id="exit">
+      <h2>Exit ticket</h2>
+      <p><strong>Chat:</strong> <code>EXIT: plan decides ... / case specifies ... / an example of regression here is ...</code></p>
+      <label for="note-exit">Exit response</label>
+      <textarea id="note-exit" data-title="Exit ticket"></textarea>
+      <p><button id="export-notes" type="button">Export my notes</button></p>
+      <p id="export-status" role="status"></p>
+    </section>
+  </main>
+  <script>
+    document.getElementById('export-notes').addEventListener('click', () => {
+      const parts = ['# C3390C Week 3 individual notes'];
+      for (const field of document.querySelectorAll('textarea[data-title]')) {
+        parts.push('## ' + field.dataset.title + '\n\n' + (field.value.trim() || '(No response recorded)'));
+      }
+      const url = URL.createObjectURL(new Blob([parts.join('\n\n') + '\n'], { type: 'text/markdown;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'C3390C-Week03-Individual-Notes.md';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.getElementById('export-status').textContent = 'Notes exported for your own record.';
+    });
+  </script>
+</body>
+</html>
