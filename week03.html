@@ -24,6 +24,9 @@
     .brief { border-left: 4px solid #7b619b; padding: 5px 16px; background: #f1eef6; margin: 14px 0; }
     label { display: block; font-weight: 600; margin: 10px 0 5px; }
     textarea { font: inherit; width: 100%; min-height: 110px; resize: vertical; border: 1px solid #82989a; border-radius: 4px; padding: 9px; }
+    fieldset { min-width: 0; margin: 16px 0; border: 1px solid #c9d6d4; }
+    legend { font-weight: 600; }
+    select { font: inherit; max-width: 100%; min-height: 40px; }
     :focus-visible { outline: 3px solid #427bb5; outline-offset: 3px; }
     button { font: inherit; min-height: 44px; padding: 9px 14px; border-radius: 4px; border: 1px solid #235d60; color: white; background: #235d60; cursor: pointer; }
     button:hover { filter: brightness(.92); }
@@ -39,10 +42,9 @@
   <header>
     <p><a href="index.html">All student labs</a></p>
     <h1>C3390C Week 3: L05 and L06</h1>
-    <p>Managing change, testing techniques, test plans and test cases</p>
+    <p>Testing techniques, test plans and test cases</p>
   </header>
   <nav aria-label="Activities">
-    <a href="#a1">A1 Managing change</a>
     <a href="#a2">A2 Testing techniques</a>
     <a href="#lesson-break">Break</a>
     <a href="#a3">A3 Test plan</a>
@@ -59,18 +61,6 @@
         <p><strong>R-CANCEL:</strong> Introduce a 24-hour cancellation cutoff. Clearly late cancellations must be rejected: keep the booking active, leave availability unchanged and display <strong>Cancellation closes 24 hours before the workshop.</strong> Clearly early cancellations still work as before.</p>
         <p>Confirm the rule at exactly 24 hours and the authoritative clock and time zone. Until then, use clearly early or late cases. The project has 30 minutes of shared staging access.</p>
       </div>
-    </section>
-    <section id="a1">
-      <p class="tag">L05 Activity 1</p>
-      <h2>Manage the change</h2>
-      <ol>
-        <li>Identify one point to clarify and one risk if the change is misunderstood.</li>
-        <li>Choose one new check and two existing checks to prioritise. Explain why.</li>
-        <li>Decide what to update in the plan or cases, and who needs to know about deferred coverage.</li>
-      </ol>
-      <p><strong>Chat:</strong> <code>A1: clarify ... / new check ... / existing checks ... / update and notify ...</code></p>
-      <label for="note-a1">A1 Change impact notes</label>
-      <textarea id="note-a1" data-title="A1 Managing change"></textarea>
     </section>
     <section id="a2">
       <p class="tag">L05 Activity 2</p>
@@ -92,32 +82,58 @@
     </section>
     <section id="a3">
       <p class="tag">L06 Activity 1</p>
-      <h2>Adapt the test plan</h2>
-      <table aria-label="Baseline booking test plan">
-        <thead><tr><th scope="col">Baseline plan</th><th scope="col">Details</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Objective</th><td>Verify capacity and seat counts.</td></tr>
-          <tr><th scope="row">Environment</th><td>Staging build with resettable fictional bookings.</td></tr>
-          <tr><th scope="row">Schedule</th><td>30 minutes for setup, priority checks and reporting.</td></tr>
-          <tr><th scope="row">Case summary</th><td>BOOK-01 successful booking; BOOK-02 reject above capacity; BOOK-03 cancel and restore seats.</td></tr>
-        </tbody>
-      </table>
-      <p>Amend this plan for R-CANCEL. Include scope, ownership or resources, risk, and conditions for starting and reporting completion. Identify something to defer or escalate. The 30 minutes is the scenario's test window.</p>
-      <p><strong>Chat:</strong> <code>A3: objective and scope ... / owner and setup ... / risk ... / start when ... / finish when ... / defer or escalate ...</code></p>
-      <label for="note-a3">A3 Test plan amendment</label>
-      <textarea id="note-a3" data-title="A3 Test plan amendment"></textarea>
+      <h2>Create a test plan</h2>
+      <p>Use the template sections below for the booking app. Give short entries. The 30 minutes is the scenario's staging window. Baseline cases: BOOK-01 successful booking, BOOK-02 rejection above capacity, BOOK-03 cancellation and seat restoration. Add your A4 case to the summary.</p>
+      <label for="plan-0">Plan ID and version</label>
+      <textarea id="plan-0" data-title="Plan ID and version" placeholder="Identifier / version"></textarea>
+      <label for="plan-1">Executive summary</label>
+      <textarea id="plan-1" data-title="Executive summary" placeholder="Product name / description / test codename / objective"></textarea>
+      <label for="plan-2">Test phases</label>
+      <textarea id="plan-2" data-title="Test phases" placeholder="Implementation / execution / completion"></textarea>
+      <label for="plan-3">Environment setup</label>
+      <textarea id="plan-3" data-title="Environment setup" placeholder="Hardware / software / network / test data"></textarea>
+      <label for="plan-4">Schedule</label>
+      <textarea id="plan-4" data-title="Schedule" placeholder="Period / activities within the 30-minute staging slot"></textarea>
+      <label for="plan-5">Results measurement</label>
+      <textarea id="plan-5" data-title="Results measurement" placeholder="Feedback type / objectives for bug reports and suggestions"></textarea>
+      <label for="plan-6">Test case summary</label>
+      <textarea id="plan-6" data-title="Test case summary" placeholder="Test Case ID / Test Cases / Type"></textarea>
+      <label for="plan-7">Test change log</label>
+      <textarea id="plan-7" data-title="Test change log" placeholder="Date / change description / author role / version"></textarea>
+      <p><strong>Chat:</strong> <code>A3: one schedule or measurement decision and why ...</code></p>
     </section>
     <section id="a4">
       <p class="tag">L06 Activity 2</p>
-      <h2>Design and judge a test case</h2>
-      <p><strong>Baseline BOOK-01:</strong> With three seats available, book one seat. Expect an active one-seat booking and two seats remaining.</p>
-      <p>Draft a blocked cancellation case two hours before the workshop. Outline an eligible comparison 25 hours before. For each, start with an active one-seat booking and two seats available out of three. Record the clock and workshop start time, and reset the initial state between cases.</p>
-      <p><strong>Chat:</strong> <code>A4: ID and requirement ... / setup ... / action ... / expected ...</code></p>
-      <label for="note-a4">A4 Test design</label>
-      <textarea id="note-a4" data-title="A4 Test design" placeholder="ID and requirement / purpose / preconditions and data / steps / expected status, availability and message / eligible comparison"></textarea>
-      <label for="note-result">Observed result and verdict</label>
-      <p id="result-hint" class="helper">After the lecturer reveals the observation, record the actual result, pass or fail, and exactly why.</p>
-      <textarea id="note-result" data-title="A4 Observed result and verdict" aria-describedby="result-hint"></textarea>
+      <h2>Write one test case with two scenarios</h2>
+      <p>Use one Test ID for cancellation. Record the workshop start and test clock. Reset to a fresh active one-seat booking and two available seats out of three before each scenario.</p>
+      <label for="case-id">Test ID</label>
+      <textarea id="case-id" data-title="Test ID" placeholder="One ID for the cancellation feature"></textarea>
+      <label for="case-title">Test Case</label>
+      <textarea id="case-title" data-title="Test Case" placeholder="Feature title"></textarea>
+      <label for="case-description">Description</label>
+      <textarea id="case-description" data-title="Description" placeholder="Purpose and requirement reference"></textarea>
+      <label for="case-preconditions">Preconditions</label>
+      <textarea id="case-preconditions" data-title="Preconditions" placeholder="Build / fictional booking / initial state / workshop start"></textarea>
+      <p class="helper">Record expectations first. Mark a scenario Pass or Fail only after you have its actual result.</p>
+      <fieldset>
+        <legend>Scenario 1: Late cancellation (two hours before)</legend>
+      <label for="steps-1">Scenario 1 test steps and expected results</label>
+      <textarea id="steps-1" data-title="Scenario 1 test steps and expected results" placeholder="Numbered steps / expected booking status, seats and message"></textarea>
+        <label for="verdict-1">Scenario 1 verdict</label>
+        <select id="verdict-1" data-title="Scenario 1 verdict"><option>Not run</option><option>Pass</option><option>Fail</option></select>
+      <label for="obs-1">Scenario 1 observation</label>
+      <textarea id="obs-1" data-title="Scenario 1 observation" placeholder="Actual result and reason for the verdict"></textarea>
+      </fieldset>
+      <fieldset>
+        <legend>Scenario 2: Eligible cancellation (25 hours before)</legend>
+      <label for="steps-2">Scenario 2 test steps and expected results</label>
+      <textarea id="steps-2" data-title="Scenario 2 test steps and expected results" placeholder="Numbered steps / expected booking status and seats"></textarea>
+        <label for="verdict-2">Scenario 2 verdict</label>
+        <select id="verdict-2" data-title="Scenario 2 verdict"><option>Not run</option><option>Pass</option><option>Fail</option></select>
+      <label for="obs-2">Scenario 2 observation</label>
+      <textarea id="obs-2" data-title="Scenario 2 observation" placeholder="Actual result and reason for the verdict"></textarea>
+      </fieldset>
+      <p><strong>Chat:</strong> <code>A4: test ID ... / scenario number ... / verdict ... / reason ...</code></p>
     </section>
     <section id="exit">
       <h2>Exit ticket</h2>
@@ -131,7 +147,7 @@
   <script>
     document.getElementById('export-notes').addEventListener('click', () => {
       const parts = ['# C3390C Week 3 individual notes'];
-      for (const field of document.querySelectorAll('textarea[data-title]')) {
+      for (const field of document.querySelectorAll('[data-title]')) {
         parts.push('## ' + field.dataset.title + '\n\n' + (field.value.trim() || '(No response recorded)'));
       }
       const url = URL.createObjectURL(new Blob([parts.join('\n\n') + '\n'], { type: 'text/markdown;charset=utf-8' }));
