@@ -49,11 +49,10 @@
   <header>
     <p><a href="index.html">All student labs</a></p>
     <h1>Week 5 · Word Sign App bug lab</h1>
-    <p>C3390C · L10 Activities A6 and A7</p>
+    <p>C3390C · L10 Activity A7</p>
   </header>
   <nav aria-label="Lab sections">
     <a href="#run">Run 1 evidence</a>
-    <a href="#triage">A6 Triage</a>
     <a href="#ticket">A7 Bug report</a>
     <a href="#exit">Exit check</a>
   </nav>
@@ -72,38 +71,9 @@
     </section>
 
     <form id="lab" autocomplete="off" novalidate>
-      <section id="triage">
-        <h2>A6 · Recommend severity and priority</h2>
-        <div class="grid">
-          <fieldset>
-            <legend>Severity</legend>
-            <label for="severity">How serious is the product impact?</label>
-            <select id="severity" data-label="Severity" required>
-              <option value="">Choose a rating</option><option>High</option><option>Medium</option><option>Low</option>
-            </select>
-            <label for="severity-reason">Impact rationale</label>
-            <textarea id="severity-reason" data-label="Impact rationale" required></textarea>
-          </fieldset>
-          <fieldset>
-            <legend>Priority</legend>
-            <label for="priority">How urgently should the team act?</label>
-            <select id="priority" data-label="Priority" required>
-              <option value="">Choose a rating</option><option>High</option><option>Medium</option><option>Low</option>
-            </select>
-            <label for="priority-reason">Urgency rationale</label>
-            <textarea id="priority-reason" data-label="Urgency rationale" required></textarea>
-          </fieldset>
-        </div>
-        <label for="verify">One fact to verify before finalising the ratings</label>
-        <input id="verify" data-label="Fact to verify" required>
-        <div class="actions"><button class="secondary" id="copy-triage" type="button">Copy A6 for Teams</button></div>
-        <textarea id="triage-copy" aria-label="A6 Teams message" readonly hidden></textarea>
-        <p class="status" id="triage-status" role="status"></p>
-      </section>
-
       <section id="ticket">
         <h2>A7 · Log a bug report</h2>
-        <p>Draft the initial ticket for Run 1. It uses your A6 ratings and rationale. Use a fictional ticket ID and team roles.</p>
+        <p>Draft the initial ticket for Run 1, including your proposed severity, priority and rationale. Use a fictional ticket ID and team roles.</p>
         <div class="group">
           <h3>Issue details</h3>
           <div class="grid">
@@ -149,6 +119,31 @@
           </div>
           <label for="evidence">Evidence reference</label>
           <input id="evidence" data-label="Evidence reference" placeholder="Cite the supplied record" required>
+        </div>
+        <div class="group">
+          <h3>Severity and priority</h3>
+        <div class="grid">
+          <fieldset>
+            <legend>Proposed severity</legend>
+            <label for="severity">How serious is the product impact?</label>
+            <select id="severity" data-label="Proposed severity" required>
+              <option value="">Choose a rating</option><option>High</option><option>Medium</option><option>Low</option>
+            </select>
+            <label for="severity-reason">Impact rationale</label>
+            <textarea id="severity-reason" data-label="Impact rationale" required></textarea>
+          </fieldset>
+          <fieldset>
+            <legend>Proposed priority</legend>
+            <label for="priority">How urgently should the team act?</label>
+            <select id="priority" data-label="Proposed priority" required>
+              <option value="">Choose a rating</option><option>High</option><option>Medium</option><option>Low</option>
+            </select>
+            <label for="priority-reason">Urgency rationale</label>
+            <textarea id="priority-reason" data-label="Urgency rationale" required></textarea>
+          </fieldset>
+        </div>
+        <label for="verify">One fact to verify before finalising the ratings</label>
+        <input id="verify" data-label="Fact to verify" required>
         </div>
         <div class="group">
           <h3>Workflow</h3>
@@ -206,7 +201,6 @@
     const form = get('lab');
     const fields = [...form.querySelectorAll('[data-label]')];
     const draftKey = 'c3390c-week05-ticket';
-    const triageIds = ['severity', 'severity-reason', 'priority', 'priority-reason', 'verify'];
     const reportIds = ['title', 'expected', 'actual'];
     let ticketUrl;
 
@@ -274,14 +268,6 @@
       }
     }
 
-    get('copy-triage').addEventListener('click', () => copyForTeams(
-      triageIds,
-      'A6 / Run 1 S=' + value('severity') + ' because ' + value('severity-reason') +
-        ' / P=' + value('priority') + ' because ' + value('priority-reason') +
-        ' / check ' + value('verify'),
-      'triage-copy',
-      'triage-status'
-    ));
     get('copy-ticket').addEventListener('click', () => copyForTeams(
       reportIds,
       'A7 / title = ' + value('title') + ' / expected = ' + value('expected') + ' / actual = ' + value('actual'),
